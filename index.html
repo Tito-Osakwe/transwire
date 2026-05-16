@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transwire — Get Paid in Any Currency, At the Real Rate.</title>
+<meta name="description" content="Currency exchange built for freelancers and remote workers. Receive in 40+ currencies, convert at the real rate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F0EDE6;
+    --paper-shade: #E5E1D8;
+    --ink: #0A0A12;
+    --ink-soft: #4A4A5C;
+    --muted: #8B8B9A;
+    --blue: #2E4BFF;
+    --pink: #FF2D87;
+    --yellow: #F5F500;
+    --lime: #C8FF00;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* Grainy texture overlay for that print feel */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    mix-blend-mode: multiply;
+  }
+
+  /* -------- Nav -------- */
+  .nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--pink);
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    transform: rotate(-8deg);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .nav-links a:not(.nav-cta):hover {
+    color: var(--pink);
+  }
+
+  .nav-cta {
+    background: var(--ink);
+    color: var(--paper) !important;
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1.5px solid var(--ink);
+    transition: all 0.2s ease;
+  }
+
+  .nav-cta:hover {
+    background: var(--pink);
+    color: var(--ink) !important;
+  }
+
+  /* -------- Hero -------- */
+  .hero {
+    position: relative;
+    padding: 80px 32px 120px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border: 1.5px solid var(--ink);
+    border-radius: 100px;
+    margin-bottom: 40px;
+    background: var(--paper);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-tag-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--lime);
+    border: 1px solid var(--ink);
+    animation: ping 1.8s ease-in-out infinite;
+  }
+
+  @keyframes ping {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+  }
+
+  .hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(64px, 11vw, 156px);
+    font-weight: 400;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+    max-width: 1100px;
+  }
+
+  .hero-title-line { display: block; }
+
+  .hero-title-line:nth-child(2) {
+    padding-left: 12%;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--blue);
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-title-highlight {
+    background: var(--yellow);
+    padding: 0 12px;
+    display: inline-block;
+    transform: rotate(-1.5deg);
+    border: 1.5px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .hero-title-pink {
+    color: var(--pink);
+  }
+
+  .hero-subtitle {
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin-bottom: 40px;
+    line-height: 1.5;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px 28px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1.5px solid var(--ink);
+    transition: all 0.2s ease;
+    letter-spacing: -0.005em;
+  }
+
+  .btn-primary:hover {
+    background: var(--blue);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .btn-secondary {
+    color: var(--ink);
+    padding: 16px 28px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    background: var(--lime);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  /* -------- Rate card -------- */
+  .rate-card-wrap {
+    margin-top: 80px;
+    position: relative;
+    max-width: 580px;
+  }
+
+  .rate-card {
+    background: var(--ink);
+    color: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 24px;
+    padding: 28px;
+    position: relative;
+    z-index: 1;
+    transform: rotate(-1deg);
+    transition: transform 0.3s ease;
+  }
+
+  .rate-card:hover {
+    transform: rotate(0deg);
+  }
+
+  .rate-card::before {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    background: var(--pink);
+    border-radius: 24px;
+    z-index: -1;
+    transform: translate(10px, 10px);
+    transition: transform 0.3s ease;
+  }
+
+  .rate-card:hover::before {
+    transform: translate(14px, 14px);
+  }
+
+  .rate-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(240, 237, 230, 0.2);
+  }
+
+  .rate-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+  }
+
+  .rate-card-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--lime);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .rate-card-status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--lime);
+    animation: ping 1.8s ease-in-out infinite;
+  }
+
+  .rate-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .rate-pair {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    color: var(--paper);
+  }
+
+  .rate-pair-flag {
+    font-size: 22px;
+  }
+
+  .rate-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--paper);
+  }
+
+  .rate-delta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    margin-left: 8px;
+    font-weight: 700;
+  }
+
+  .rate-delta.up { color: var(--lime); }
+  .rate-delta.down { color: var(--pink); }
+
+  /* -------- Marquee strip -------- */
+  .marquee-strip {
+    background: var(--blue);
+    color: var(--paper);
+    padding: 14px 0;
+    overflow: hidden;
+    border-top: 1.5px solid var(--ink);
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 40px;
+    white-space: nowrap;
+    animation: scroll 28s linear infinite;
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    font-style: italic;
+  }
+
+  .marquee-track span::after {
+    content: '★';
+    margin-left: 40px;
+    color: var(--yellow);
+    font-style: normal;
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* -------- Features -------- */
+  .features {
+    padding: 120px 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .features-header {
+    margin-bottom: 64px;
+    max-width: 800px;
+    position: relative;
+  }
+
+  .features-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    display: inline-block;
+    background: var(--lime);
+    padding: 6px 14px;
+    border: 1.5px solid var(--ink);
+    border-radius: 100px;
+  }
+
+  .features-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(44px, 6.5vw, 88px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+  }
+
+  .features-title em {
+    font-style: italic;
+    color: var(--pink);
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .feature {
+    padding: 32px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature:nth-child(1) {
+    transform: rotate(-1deg);
+  }
+
+  .feature:nth-child(2) {
+    transform: translateY(20px) rotate(0.5deg);
+  }
+
+  .feature:nth-child(3) {
+    transform: rotate(-0.5deg);
+  }
+
+  .feature:hover {
+    transform: translate(-4px, -4px) rotate(0deg);
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+
+  .feature:nth-child(1) {
+    background: var(--paper);
+  }
+
+  .feature:nth-child(2) {
+    background: var(--yellow);
+  }
+
+  .feature:nth-child(3) {
+    background: var(--pink);
+    color: var(--paper);
+  }
+
+  .feature-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    margin-bottom: 24px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+
+  .feature:nth-child(1) .feature-number { color: var(--blue); }
+  .feature:nth-child(2) .feature-number { color: var(--ink); }
+  .feature:nth-child(3) .feature-number { color: var(--yellow); }
+
+  .feature-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px;
+    line-height: 1.0;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .feature-body {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .feature:nth-child(1) .feature-body,
+  .feature:nth-child(2) .feature-body {
+    color: var(--ink-soft);
+  }
+
+  .feature:nth-child(3) .feature-body {
+    color: rgba(240, 237, 230, 0.9);
+  }
+
+  /* -------- CTA -------- */
+  .cta-strip {
+    padding: 80px 32px 100px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .cta-inner {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 40px;
+    border-radius: 32px;
+    border: 1.5px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .cta-blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .cta-blob-1 {
+    top: -100px;
+    left: -100px;
+    width: 320px;
+    height: 320px;
+    background: var(--pink);
+    opacity: 0.4;
+    filter: blur(60px);
+  }
+
+  .cta-blob-2 {
+    bottom: -100px;
+    right: -100px;
+    width: 280px;
+    height: 280px;
+    background: var(--blue);
+    opacity: 0.5;
+    filter: blur(60px);
+  }
+
+  .cta-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(44px, 7vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .cta-title em {
+    font-style: italic;
+    color: var(--lime);
+  }
+
+  .cta-subtitle {
+    font-size: 17px;
+    color: rgba(240, 237, 230, 0.6);
+    margin-bottom: 36px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+
+  .cta-inner .btn-primary {
+    position: relative;
+    background: var(--lime);
+    color: var(--ink);
+    border-color: var(--lime);
+  }
+
+  .cta-inner .btn-primary:hover {
+    background: var(--paper);
+    border-color: var(--paper);
+    box-shadow: 4px 4px 0 var(--lime);
+  }
+
+  /* -------- Footer -------- */
+  .footer {
+    padding: 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    flex-wrap: wrap;
+    gap: 16px;
+    border-top: 1.5px solid var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .footer a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+
+  .footer a:hover { color: var(--pink); }
+
+  .footer-badge {
+    padding: 4px 10px;
+    border: 1px solid var(--ink);
+    border-radius: 100px;
+  }
+
+  /* -------- Modal -------- */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 18, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 24px;
+    padding: 40px 32px 32px;
+    max-width: 440px;
+    width: 100%;
+    position: relative;
+    transform: scale(0.85) rotate(-2deg);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+
+  .modal-overlay.active .modal {
+    transform: scale(1) rotate(0deg);
+  }
+
+  .modal-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    background: var(--lime);
+    border: 1.5px solid var(--ink);
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .modal-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .modal-title em {
+    font-style: italic;
+    color: var(--pink);
+  }
+
+  .modal-body {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 24px;
+  }
+
+  .modal-body a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 2px;
+  }
+
+  .modal-body a:hover { color: var(--pink); }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+
+  .modal-close:hover {
+    background: var(--ink);
+    color: var(--paper);
+    transform: rotate(90deg);
+  }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 768px) {
+    .nav-links { gap: 14px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero { padding: 48px 20px 60px; }
+    .hero-title-line:nth-child(2) { padding-left: 0; }
+    .hero-subtitle { font-size: 16px; }
+    .rate-card { padding: 22px; transform: rotate(-0.5deg); }
+    .features { padding: 60px 20px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .feature:nth-child(1),
+    .feature:nth-child(2),
+    .feature:nth-child(3) { transform: none; }
+    .feature:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+    .cta-strip { padding: 40px 20px 60px; }
+    .cta-inner { padding: 56px 24px; }
+    .marquee-track { font-size: 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">
+    <span class="logo-icon">T</span>
+    Transwire
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#docs">Docs</a>
+    <a href="#cta" class="nav-cta">Open account</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">
+    <span class="hero-tag-dot"></span>
+    Live in 80+ countries
+  </div>
+
+  <h1 class="hero-title">
+    <span class="hero-title-line">Get paid in <em>any</em> <span class="hero-title-highlight">currency.</span></span>
+    <span class="hero-title-line">At the <span class="hero-title-pink">real</span> rate.</span>
+  </h1>
+
+  <p class="hero-subtitle">
+    Transwire is a multi-currency account for freelancers and remote workers. Receive in 40+ currencies. Convert at mid-market rates. No banking-grade theft.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#cta" class="btn-primary">Open a free account →</a>
+    <a href="#features" class="btn-secondary">How it works</a>
+  </div>
+
+  <div class="rate-card-wrap">
+    <div class="rate-card">
+      <div class="rate-card-header">
+        <span class="rate-card-label">Live mid-market</span>
+        <span class="rate-card-status">Streaming</span>
+      </div>
+
+      <div class="rate-row">
+        <span class="rate-pair">
+          <span class="rate-pair-flag">🇺🇸</span> USD → NGN
+        </span>
+        <span class="rate-value">
+          ₦1,602.40
+          <span class="rate-delta up">↑ 0.3%</span>
+        </span>
+      </div>
+
+      <div class="rate-row">
+        <span class="rate-pair">
+          <span class="rate-pair-flag">🇬🇧</span> GBP → NGN
+        </span>
+        <span class="rate-value">
+          ₦2,041.18
+          <span class="rate-delta up">↑ 0.1%</span>
+        </span>
+      </div>
+
+      <div class="rate-row">
+        <span class="rate-pair">
+          <span class="rate-pair-flag">🇪🇺</span> EUR → NGN
+        </span>
+        <span class="rate-value">
+          ₦1,742.95
+          <span class="rate-delta down">↓ 0.2%</span>
+        </span>
+      </div>
+
+      <div class="rate-row">
+        <span class="rate-pair">
+          <span class="rate-pair-flag">🇨🇦</span> CAD → NGN
+        </span>
+        <span class="rate-value">
+          ₦1,178.62
+          <span class="rate-delta up">↑ 0.4%</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span>40+ currencies</span>
+    <span>0.4% flat fee</span>
+    <span>Real rates</span>
+    <span>Instant conversion</span>
+    <span>Built for freelancers</span>
+    <span>40+ currencies</span>
+    <span>0.4% flat fee</span>
+    <span>Real rates</span>
+    <span>Instant conversion</span>
+    <span>Built for freelancers</span>
+  </div>
+</div>
+
+<section class="features" id="features">
+  <div class="features-header">
+    <span class="features-eyebrow">Why freelancers switch</span>
+    <h2 class="features-title">
+      Built for people who get paid <em>across borders.</em>
+    </h2>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature">
+      <div class="feature-number">— 01 / RATE</div>
+      <h3 class="feature-title">The real rate.</h3>
+      <p class="feature-body">
+        Flat 0.4% — never inflated exchange rates, never surprise spreads. The price you see is the price you pay.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-number">— 02 / ACCESS</div>
+      <h3 class="feature-title">One account, forty currencies.</h3>
+      <p class="feature-body">
+        Hold balances in USD, GBP, EUR, NGN, and 36 more. Share local account details with clients. Get paid like a local, anywhere.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-number">— 03 / SPEED</div>
+      <h3 class="feature-title">Convert in seconds.</h3>
+      <p class="feature-body">
+        Move money between currencies instantly. No multi-day holds. No transfer fees buried three pages deep. Just clean conversions.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip" id="cta">
+  <div class="cta-inner">
+    <div class="cta-blob cta-blob-1"></div>
+    <div class="cta-blob cta-blob-2"></div>
+    <h2 class="cta-title">Stop paying the <em>currency tax.</em></h2>
+    <p class="cta-subtitle">Open a free Transwire account in under 3 minutes. No card details needed.</p>
+    <a href="#" class="btn-primary">Open a free account →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>© 2026 Transwire · A concept project by <a href="https://github.com/tito-osakwe">Otitodilichukwu Osakwe</a></span>
+  <span class="footer-badge">Fictional / not a real service</span>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <span class="modal-badge">Heads up</span>
+    <h3 class="modal-title" id="modalTitle">Thanks for clicking — but <em>Transwire isn't real.</em></h3>
+    <p class="modal-body">
+      This is a concept project I built to practice frontend development. There's no account to open, no money to move. If you'd like to see more of my work, head to <a href="https://github.com/tito-osakwe" target="_blank" rel="noopener">my GitHub</a>.
+    </p>
+    <div class="modal-actions">
+      <a href="https://github.com/tito-osakwe" target="_blank" rel="noopener" class="btn-primary">See my GitHub →</a>
+      <button class="btn-secondary" id="modalDismiss" style="font-family: inherit; cursor: pointer;">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // -------- Modal logic --------
+  const modal = document.getElementById('modalOverlay');
+  const modalClose = document.getElementById('modalClose');
+  const modalDismiss = document.getElementById('modalDismiss');
+  const ctaTriggers = document.querySelectorAll('a[href="#cta"], a[href="#"]');
+
+  function openModal() {
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Intercept any "Open account" / CTA buttons that should show the modal
+  document.querySelectorAll('a').forEach(link => {
+    const text = link.textContent.trim().toLowerCase();
+    if (text.includes('open') && text.includes('account') || text.includes('open account')) {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    }
+  });
+
+  // Close handlers
+  modalClose.addEventListener('click', closeModal);
+  modalDismiss.addEventListener('click', closeModal);
+
+  // Close on overlay click (but not when clicking the modal itself)
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
+  });
+</script>
+
+</body>
+</html>
